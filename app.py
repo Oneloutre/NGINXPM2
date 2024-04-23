@@ -2,20 +2,28 @@ import flask
 from routes.auth.login import *
 from routes.auth.register import *
 import os
+from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt
+from datetime import timedelta, datetime, timezone
 
-
-# Create the application.
 APP = flask.Flask(__name__)
+jwt = JWTManager(APP)
 
-@APP.route('/login', methods=['GET', 'POST'])
+APP.config['JWT_TOKEN_LOCATION'] = ['cookies']
+APP.config['JWT_SECRET_KEY'] = 'your-secret-key'
+APP.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
+
+
+@APP.route('/login', methods=['POST', 'GET'])
 def login():
-    return log_in()
-
+    if os.path.exists('user_files/admin/admin.json'):
+        return log_in()
+    else:
+        return redirect(url_for('register'), code=301)
 
 
 @APP.route('/register', methods=['GET', 'POST'])
 def register():
-    if os.path.exists('user_files/admin/user.json'):
+    if os.path.exists('user_files/admin/admin.json'):
         return 'You are already registered'
         return redirect(url_for('index'), code=301)
     else:
@@ -23,11 +31,41 @@ def register():
 
 
 @APP.route('/', methods=['GET', 'POST'])
+@jwt_required()
 def index():
-    if os.path.exists('user_files/admin/admin.json'):
-        return 'You are logged in'
-    else:
-        return register_user()
+    return render_template('index.html', code=200)
+
+
+@APP.route('/logout', methods=['POST'])
+def logout():
+    resp = flask.make_response(flask.redirect(flask.url_for('login')))
+    unset_jwt_cookies(resp)
+    return resp
+
+
+@jwt.unauthorized_loader
+def my_invalid_token_callback(expired_token):
+    print("unauthorized_loader", expired_token)
+    return redirect(url_for('login'))
+
+
+@APP.errorhandler(401)
+def unauthorized_error(error):
+    return redirect(url_for('login'))
+
+
+@APP.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+        return response
+    except (RuntimeError, KeyError):
+        return response
 
 
 if __name__ == '__main__':
