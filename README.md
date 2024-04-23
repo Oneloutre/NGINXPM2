@@ -1,6 +1,6 @@
 <div align='center'>
 
-![banner](Assets/BannerNginxPM2.png)
+![banner](static/Assets/BannerNginxPM2.png)
 <h1>NginxPM2</h1>
 <p>A simple, but yet efficient, way of managing all your Nginx Proxy Manager instances !</p>
 
