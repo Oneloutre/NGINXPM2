@@ -1,0 +1,27 @@
+body {
+    background-color: #1e2124;
+    color: #ffffff;
+    margin-top: 50px;
+}
+
+.container {
+    background-color: #282b30;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: auto;
+}
+
+.dark-container {
+    color: #333333;
+}
+
+.banner img {
+    max-width: 100%;
+    height: auto;
+    max-height: 150px;
+}
+.error {
+    color: red;
+}

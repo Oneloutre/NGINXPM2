@@ -1,12 +1,35 @@
-from flask import Flask
+import flask
+from routes.auth.login import *
+from routes.auth.register import *
+import os
 
-app = Flask(__name__)
+
+# Create the application.
+APP = flask.Flask(__name__)
+
+@APP.route('/login', methods=['GET', 'POST'])
+def login():
+    return log_in()
 
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+
+@APP.route('/register', methods=['GET', 'POST'])
+def register():
+    if os.path.exists('user_files/admin/user.json'):
+        return 'You are already registered'
+        return redirect(url_for('index'), code=301)
+    else:
+        return register_user()
+
+
+@APP.route('/', methods=['GET', 'POST'])
+def index():
+    if os.path.exists('user_files/admin/admin.json'):
+        return 'You are logged in'
+    else:
+        return register_user()
 
 
 if __name__ == '__main__':
-    app.run()
+    APP.debug=False
+    APP.run()
