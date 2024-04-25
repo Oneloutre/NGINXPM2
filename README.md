@@ -18,9 +18,38 @@
 
 # :notebook_with_decorative_cover: Table of Contents
 
+- [What is it ?](#thinking-what-is-it-)
 - [About the Project](#star2-about-the-project)
 - [License](#warning-license)
 - [Contact](#handshake-contact)
+
+## :thinking: What is it ?
+
+I created NginxPM2 to manage all my Nginx Proxy Manager instances in one place.
+It was a necessity for me since I had a few instances of Nginx Proxy Manager running here and there, and I wanted to have a simple way to have a global view of all of them.
+
+It's how I came up with the idea of NginxPM2, a simple, but yet efficient, way of managing all your Nginx Proxy Manager instances !
+
+### <u>Why this name ?</u>
+
+Nginx Proxy Manager Monitor => NginxPM*M => NginxPM^2 => NginxPM2 
+
+## :map: Roadmap
+
+| Feature                            | Done ?             |
+|:----------------------------------:|:------------------:|
+| Login system                       | :white_check_mark: |
+| Add an instance to the dashboard   | ⌛️                 |
+| functionnal dashboard              | :x:                |
+| multiple instances                 | :x:                |
+|Create a documentation              | :x:                |
+| multiples users                    | :x:                |
+| Dark/clear separated themes        | :x:                |
+| RESTful API                        | :x:                |
+| Manage subdomains                  | :x:                |
+| ----------------------             | -----              |
+| Other reverses proxy (Traefik etc) | :x:                |
+
 
 
 ## :star2: About the Project
@@ -31,6 +60,11 @@
 
 :snake: • Backend using Python.
 
+:lock: • Secure using .ENV files.
+
+What can it do ? => Manage all your Nginx Proxy Manager instances in one place.
+
+What can't it do ? => It is <u>not</u> a **Reverse Proxy**, just a tool to monitor all your Nginx Proxy Manager instances.
 
 ## :warning: License
 
