@@ -1,7 +1,5 @@
-import os
-
 import cloudscraper
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, redirect, url_for
 from bs4 import BeautifulSoup
 
 scraper = cloudscraper.create_scraper()
@@ -53,7 +51,7 @@ def check_nginx_validity(csrf_access_token):
             url = url_form.strip()
             if not url:
                 error = 'URL is required.'
-                return render_template('misc/add_proxy.html', error=error)
+                return render_template('misc/add_proxy.html', target_error=error)
             else:
                 if validate(url):
                     pass
@@ -62,7 +60,7 @@ def check_nginx_validity(csrf_access_token):
                 try:
                     response = timeout_checker(url)
                     if response == 'host_up':
-                        return render_template('misc/add_proxy.html', success='Host is up and running !')
+                        return render_template('misc/add_proxy.html', target_success='Host is up and running !')
                     elif response == "Timeout Error":
                         error = 'Timeout Error'
                         return render_template('misc/add_proxy.html', target_error=error)
@@ -98,9 +96,9 @@ def authenticate_user_in_nginx(url, user, password, csrf_access_token, csrf_sent
             response = scraper.post(nginx_url, data=form)
             jsonified = response.json()
             if 'error' in jsonified:
-                return render_template('misc/add_proxy.html', error=jsonified['error'])
+                return render_template('misc/add_proxy.html', error=jsonified['error']['message'])
             else:
-                return render_template('misc/add_proxy.html', success='User authenticated successfully !')
+                return redirect(url_for('dashboard'))
         except Exception as e:
             print(e)
 

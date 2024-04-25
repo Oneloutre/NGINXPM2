@@ -34,8 +34,8 @@
                                  {% if target_error %}
                                     <p class="target_error"><strong>Error:</strong> {{ target_error }}</p>
                                  {% endif %}
-                                 {% if success %}
-                                    <p class="success"><strong>Success ! :</strong> {{ success }}</p>
+                                 {% if target_success %}
+                                    <p class="target_success"><strong>Success ! :</strong> {{ target_success }}</p>
                                  {% endif %}
                                 <div id="status" class="mt-3"></div>
                             <form action="/add_proxy" method="post">
@@ -53,6 +53,9 @@
                             </form>
                             {% if error %}
                                     <p class="error"><strong>Error:</strong> {{ error }}</p>
+                            {% endif %}
+                            {% if success %}
+                                    <p class="success"><strong>Success ! :</strong> {{ success }}</p>
                             {% endif %}
                             </div>
                         </div>
