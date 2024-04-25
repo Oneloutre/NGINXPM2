@@ -1,0 +1,54 @@
+body {
+    background-color: #1e2124;
+}
+
+.img-fluid{
+    margin-top: 60px;
+    margin-left: -2px;
+    max-width: 100px;
+    max-height: 400px;
+}
+
+.card {
+    background-color: #282b30;
+    color: #ffffff;
+    border-radius: 5px;
+    width: 600px;
+    margin-top: 50px;
+}
+
+.card-header {
+    background-color: #282b30;
+    text-align: center;
+    border-bottom: 1px solid #ffffff;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.error {
+    color: red;
+    font-size: 15px;
+}
+
+.success {
+    color: green;
+    font-size: 15px;
+}
