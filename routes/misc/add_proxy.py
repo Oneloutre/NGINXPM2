@@ -98,7 +98,16 @@ def authenticate_user_in_nginx(url, user, password, csrf_access_token, csrf_sent
             if 'error' in jsonified:
                 return render_template('misc/add_proxy.html', error=jsonified['error']['message'])
             else:
-                return redirect(url_for('dashboard'))
+                token = jsonified['token']
+
+                headers = {
+                    'Authorization': f'Bearer {token}',
+                    'accept': 'application/json'
+                }
+                hosts = scraper.get(url+'/api/nginx/proxy-hosts', headers=headers)
+                print(hosts.json()[1])
+                return render_template('misc/add_proxy.html', success='Successfully authenticated !')
+                #return redirect(url_for('dashboard'))
         except Exception as e:
             print(e)
 
