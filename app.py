@@ -5,6 +5,7 @@ from routes.misc.add_proxy import *
 import os
 from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt, verify_jwt_in_request
 from datetime import timedelta, datetime, timezone
+from jwt.exceptions import ExpiredSignatureError
 
 
 APP = flask.Flask(__name__)
@@ -60,8 +61,12 @@ def logout():
 
 
 @jwt.unauthorized_loader
-def my_invalid_token_callback(expired_token):
-    print("unauthorized_loader", expired_token)
+def my_invalid_token_callback():
+    return redirect(url_for('login'))
+
+
+@APP.errorhandler(ExpiredSignatureError)
+def handle_expired_token_error(error):
     return redirect(url_for('login'))
 
 
