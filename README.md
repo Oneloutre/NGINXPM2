@@ -34,7 +34,7 @@ It's how I came up with the idea of NginxPM2, a simple, but yet efficient, way o
 
 Nginx Proxy Manager Monitor => NginxPM*M => NginxPM^2 => NginxPM2 
 
-## :map: Roadmap
+## 🗺️ Roadmap
 
 | Feature                            | Done ?             |
 |:----------------------------------:|:------------------:|
@@ -61,6 +61,8 @@ Nginx Proxy Manager Monitor => NginxPM*M => NginxPM^2 => NginxPM2
 :snake: • Backend using Python.
 
 :lock: • Secure using .ENV files.
+
+------------------
 
 What can it do ? => Manage all your Nginx Proxy Manager instances in one place.
 
