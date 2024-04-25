@@ -31,22 +31,29 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary" id="pingBtn">Check host</button>
                                 </form>
-                                 {% if error %}
-                                    <p class="error"><strong>Error:</strong> {{ error }}</p>
+                                 {% if target_error %}
+                                    <p class="target_error"><strong>Error:</strong> {{ target_error }}</p>
                                  {% endif %}
                                  {% if success %}
                                     <p class="success"><strong>Success ! :</strong> {{ success }}</p>
                                  {% endif %}
                                 <div id="status" class="mt-3"></div>
+                            <form action="/add_proxy" method="post">
                                 <div class="form-group">
+                                    <input type="hidden" name="target" value="{{ request.form.target }}">
+                                    <input type="hidden" name="csrf_token" value="{{ request.cookies.get('csrf_access_token') }}">
                                     <label for="username">Username:</label>
-                                    <input type="text" class="form-control bg-dark text-white" placeholder="Username" id="username" value="{{ request.form.username }}">
+                                    <input type="text" class="form-control bg-dark text-white" placeholder="Username" id="username" name="username" value="{{ request.form.username }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password:</label>
-                                    <input type="password" class="form-control bg-dark text-white" placeholder="Password" id="password" value="{{ request.form.password }}">
+                                    <input type="password" class="form-control bg-dark text-white" placeholder="Password" id="password" name="password" value="{{ request.form.password }}">
                                 </div>
-                                <button class="btn btn-success" id="loginBtn">Login</button>
+                                <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
+                            </form>
+                            {% if error %}
+                                    <p class="error"><strong>Error:</strong> {{ error }}</p>
+                            {% endif %}
                             </div>
                         </div>
                     </div>

@@ -1,13 +1,20 @@
+import os
+
 import cloudscraper
 from flask import render_template, request, jsonify
 from bs4 import BeautifulSoup
 
 scraper = cloudscraper.create_scraper()
 
+
 def proxy_add_new(csrf_access_token):
     error = None
     if request.method == 'POST':
-        return check_nginx_validity(csrf_access_token)
+        if not 'username' in request.form:
+            return check_nginx_validity(csrf_access_token)
+        else:
+            return authenticate_user_in_nginx(request.form['target'], request.form['username'], request.form['password'], csrf_access_token, request.form['csrf_token'])
+        return render_template('misc/add_proxy.html', error=error)
     elif request.method == 'GET':
         return render_template('misc/add_proxy.html', error=error)
 
@@ -37,7 +44,9 @@ def timeout_checker(url, timeout=5):
 
 def check_nginx_validity(csrf_access_token):
     if request.method == 'POST':
-        if csrf_access_token != request.form['csrf_token']:
+        csrf_token = request.form['csrf_token']
+
+        if csrf_access_token != csrf_token:
             return jsonify({'error': 'Invalid CSRF token'}), 400
         else:
             url_form = request.form['target']
@@ -56,17 +65,48 @@ def check_nginx_validity(csrf_access_token):
                         return render_template('misc/add_proxy.html', success='Host is up and running !')
                     elif response == "Timeout Error":
                         error = 'Timeout Error'
-                        return render_template('misc/add_proxy.html', error=error)
+                        return render_template('misc/add_proxy.html', target_error=error)
                     elif response == 'not_nginx_proxy_manager':
-                        error = 'Error... This is not a Nginx Proxy Manager URL !'
-                        return render_template('misc/add_proxy.html', error=error)
+                        error = 'This is not a Nginx Proxy Manager URL !'
+                        return render_template('misc/add_proxy.html', target_error=error)
                     else:
                         error = 'Error fetching the URL'
-                        return render_template('misc/add_proxy.html', error=error)
+                        return render_template('misc/add_proxy.html', target_error=error)
                 except:
-                    return render_template('misc/add_proxy.html', error='Error fetching the URL')
-                    error = ''
+                    return render_template('misc/add_proxy.html', target_error='Error fetching the URL')
 
 
-def authenticate_user_in_nginx(user, password):
-    pass
+
+def authenticate_user_in_nginx(url, user, password, csrf_access_token, csrf_sent_token):
+    csrf_access_token = csrf_access_token
+    csrf_sent_token = csrf_sent_token
+    if csrf_access_token != csrf_sent_token:
+        return jsonify({'error': 'Invalid CSRF token'}), 400
+    if not verify_credentials_validity(url, user, password):
+        return render_template('misc/add_proxy.html', error='Please fill all the fields')
+    else:
+
+        nginx_url = url+'/api/tokens'
+        nginx_user = user
+        nginx_password = password
+
+        try:
+            form = {
+                'identity': nginx_user,
+                'secret': nginx_password
+            }
+            response = scraper.post(nginx_url, data=form)
+            jsonified = response.json()
+            if 'error' in jsonified:
+                return render_template('misc/add_proxy.html', error=jsonified['error'])
+            else:
+                return render_template('misc/add_proxy.html', success='User authenticated successfully !')
+        except Exception as e:
+            print(e)
+
+
+def verify_credentials_validity(url, user, password):
+    if not url or not user or not password:
+        return False
+    else:
+        return True
