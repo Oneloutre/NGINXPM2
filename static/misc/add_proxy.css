@@ -48,7 +48,17 @@ body {
     font-size: 15px;
 }
 
+.target_error {
+    color: red;
+    font-size: 15px;
+}
+
 .success {
+    color: green;
+    font-size: 15px;
+}
+
+.target_success {
     color: green;
     font-size: 15px;
 }
