@@ -11,7 +11,7 @@ def register_user():
         confirm_password = request.form['confirm_password']
         if isFormEmpty(request.form):
             error = 'Please fill all the fields'
-            return render_template('register/register.html', error=error)
+            return render_template('auth/register/register.html', error=error)
 
         if password != confirm_password:
             error = 'Passwords do not match'
@@ -21,7 +21,7 @@ def register_user():
             with open('user_files/admin/admin.json', 'w') as file:
                 file.write('{\n   "username": "' + crypted_username.decode('utf-8') + '",\n   "email": "' + crypted_email.decode('utf-8') + '",\n   "password": "' + crypted_password.decode('utf-8') + '"\n}')
             return redirect(url_for('login'))
-    return render_template('register/register.html', error=error)
+    return render_template('auth/register/register.html', error=error)
 
 
 def isFormEmpty(form):

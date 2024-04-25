@@ -18,8 +18,8 @@ def log_in():
             return response
         else:
             error = 'Invalid Credentials. Please try again.'
-            return render_template('login/login.html', error=error)
-    return render_template('login/login.html', error=error)
+            return render_template('auth/login/login.html', error=error)
+    return render_template('auth/login/login.html', error=error)
 
 
 def load_encrypted_creds(file):

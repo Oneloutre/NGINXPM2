@@ -1,0 +1,11 @@
+body {
+  background-color: #1e2124;
+  color: #ffffff; /* Text color */
+}
+
+.container {
+  background-color: #282b30;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}

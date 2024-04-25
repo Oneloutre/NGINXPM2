@@ -1,9 +1,11 @@
 import flask
 from routes.auth.login import *
 from routes.auth.register import *
+from routes.misc.add_proxy import *
 import os
-from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt
+from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt, verify_jwt_in_request
 from datetime import timedelta, datetime, timezone
+
 
 APP = flask.Flask(__name__)
 jwt = JWTManager(APP)
@@ -24,8 +26,8 @@ def login():
 @APP.route('/register', methods=['GET', 'POST'])
 def register():
     if os.path.exists('user_files/admin/admin.json'):
-        return 'You are already registered'
-        return redirect(url_for('index'), code=301)
+
+        return render_template('auth/already_registered.html')
     else:
         return register_user()
 
@@ -33,8 +35,22 @@ def register():
 @APP.route('/', methods=['GET', 'POST'])
 @jwt_required()
 def index():
-    return render_template('index.html', code=200)
+    return redirect(url_for('dashboard'))
 
+
+@APP.route('/dashboard', methods=['GET', 'POST'])
+@jwt_required()
+def dashboard():
+    return render_template('dashboard.html', code=200)
+
+
+@APP.route('/add_proxy', methods=['GET', 'POST'])
+def add_proxy():
+    if 'csrf_access_token' in request.cookies:
+        csrf_access_token = request.cookies['csrf_access_token']
+        return proxy_add_new(csrf_access_token)
+    else:
+        return redirect(url_for('login'))
 
 @APP.route('/logout', methods=['POST'])
 def logout():
