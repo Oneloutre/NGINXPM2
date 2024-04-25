@@ -36,19 +36,20 @@ Nginx Proxy Manager Monitor => NginxPM*M => NginxPM^2 => NginxPM2
 
 ## 🗺️ Roadmap
 
-| Feature                            | Done ?             |
-|:----------------------------------:|:------------------:|
-| Login system                       | :white_check_mark: |
-| Add an instance to the dashboard   | ⌛️                 |
-| functionnal dashboard              | :x:                |
-| multiple instances                 | :x:                |
-|Create a documentation              | :x:                |
-| multiples users                    | :x:                |
-| Dark/clear separated themes        | :x:                |
-| RESTful API                        | :x:                |
-| Manage subdomains                  | :x:                |
-| ----------------------             | -----              |
-| Other reverses proxy (Traefik etc) | :x:                |
+|               Feature                |       Done ?       |
+|:------------------------------------:|:------------------:|
+|             Login system             | :white_check_mark: |
+|   Add an instance to the dashboard   |         ⌛️         |
+| Docker support (build and compose    |         ⌛️         |
+|        functionnal dashboard         |        :x:         |
+|          multiple instances          |        :x:         |
+|        Create a documentation        |        :x:         |
+|           multiples users            |        :x:         |
+|     Dark/clear separated themes      |        :x:         |
+|             RESTful API              |        :x:         |
+|          Manage subdomains           |        :x:         |
+|        ----------------------        |       -----        |
+|  Other reverses proxy (Traefik etc)  |        :x:         |
 
 
 
