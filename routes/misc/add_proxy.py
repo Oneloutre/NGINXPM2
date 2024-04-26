@@ -1,5 +1,5 @@
 import cloudscraper
-from flask import render_template, request, jsonify, redirect, url_for
+from flask import render_template, request, jsonify
 from bs4 import BeautifulSoup
 
 scraper = cloudscraper.create_scraper()
@@ -72,7 +72,6 @@ def check_nginx_validity(csrf_access_token):
                         return render_template('misc/add_proxy.html', target_error=error)
                 except:
                     return render_template('misc/add_proxy.html', target_error='Error fetching the URL')
-
 
 
 def authenticate_user_in_nginx(url, user, password, csrf_access_token, csrf_sent_token):

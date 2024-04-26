@@ -1,5 +1,7 @@
 from flask import render_template, request, redirect, url_for
-import bcrypt, hashlib, requests
+import bcrypt
+import hashlib
+import requests
 
 
 def register_user():
@@ -9,7 +11,7 @@ def register_user():
         email = request.form['email'].lower()
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-        if isFormEmpty(request.form):
+        if isformempty(request.form):
             error = 'Please fill all the fields'
             return render_template('auth/register/register.html', error=error)
 
@@ -24,7 +26,7 @@ def register_user():
     return render_template('auth/register/register.html', error=error)
 
 
-def isFormEmpty(form):
+def isformempty(form):
     for key in form:
         if form[key] == "":
             return True
@@ -36,6 +38,7 @@ def crypt_data(username, email, password):
     crypted_email = bcrypt.hashpw(email.encode('utf-8'), bcrypt.gensalt())
     crypted_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     return crypted_username, crypted_email, crypted_password
+
 
 def get_gravatar_icon(email):
     code = hashlib.md5(email.strip().encode('utf8')).hexdigest()
@@ -49,5 +52,3 @@ def get_gravatar_icon(email):
         img_data = requests.get("http://www.gravatar.com/avatar/?d=mp").content
         with open('user_files/admin/admin_avatar.png', 'wb') as f:
             f.write(img_data)
-
-

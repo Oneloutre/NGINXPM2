@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, make_response, jsonify
+from flask import render_template, request, redirect, url_for, make_response
 import json, bcrypt
 from flask_jwt_extended import create_access_token, set_access_cookies
 
