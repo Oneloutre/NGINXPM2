@@ -3,7 +3,7 @@ from routes.auth.login import *
 from routes.auth.register import *
 from routes.misc.add_proxy import *
 import os
-from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt, verify_jwt_in_request
+from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt
 from datetime import timedelta, datetime, timezone
 from jwt.exceptions import ExpiredSignatureError
 
@@ -53,6 +53,7 @@ def add_proxy():
     else:
         return redirect(url_for('login'))
 
+
 @APP.route('/logout', methods=['POST'])
 def logout():
     resp = flask.make_response(flask.redirect(flask.url_for('login')))
@@ -66,12 +67,12 @@ def my_invalid_token_callback():
 
 
 @APP.errorhandler(ExpiredSignatureError)
-def handle_expired_token_error(error):
+def handle_expired_token_error():
     return redirect(url_for('login'))
 
 
 @APP.errorhandler(401)
-def unauthorized_error(error):
+def unauthorized_error():
     return redirect(url_for('login'))
 
 
@@ -90,5 +91,5 @@ def refresh_expiring_jwts(response):
 
 
 if __name__ == '__main__':
-    APP.debug=False
+    APP.debug = False
     APP.run()
