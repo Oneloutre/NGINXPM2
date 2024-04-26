@@ -1,9 +1,15 @@
+.page-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e2124;
+}
+
 .container {
     background-color: #282b30;
-    width: 10%;
-    margin: auto;
-    margin-top: 20vh;
-    padding: 20px;
+    width: 50%;
+    padding: 100px;
     text-align: center;
 }
 
