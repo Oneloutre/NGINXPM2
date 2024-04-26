@@ -6,13 +6,19 @@ from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_
 from datetime import timedelta, datetime, timezone
 from jwt.exceptions import ExpiredSignatureError
 from routes.misc.add_proxy import *
+from dotenv import load_dotenv
+
+
+dotenv = load_dotenv()
+SECRET_KEY = os.getenv('SECRET_KEY')
+PORT = os.getenv('PORT')
 
 
 APP = flask.Flask(__name__)
 jwt = JWTManager(APP)
 
 APP.config['JWT_TOKEN_LOCATION'] = ['cookies']
-APP.config['JWT_SECRET_KEY'] = 'your-secret-key'
+APP.config['JWT_SECRET_KEY'] = SECRET_KEY
 APP.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
 
 
@@ -98,4 +104,4 @@ def refresh_expiring_jwts(response):
 
 if __name__ == '__main__':
     APP.debug = False
-    APP.run()
+    APP.run(port=PORT)
