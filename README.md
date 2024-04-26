@@ -14,6 +14,10 @@
 
 </div>
 
+<div align='center'>
+<h2>This is under very active development ! Expect bugs and unexpected behaviours ! (but feel free to contact me ;) )</h2>
+</div>
+
 ----
 
 # :notebook_with_decorative_cover: Table of Contents
