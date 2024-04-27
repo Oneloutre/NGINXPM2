@@ -7,7 +7,7 @@ from datetime import timedelta, datetime, timezone
 from jwt.exceptions import ExpiredSignatureError
 from routes.misc.add_proxy import *
 from dotenv import load_dotenv
-
+from waitress import serve
 
 dotenv = load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -17,6 +17,8 @@ PORT = os.getenv('PORT')
 APP = flask.Flask(__name__)
 jwt = JWTManager(APP)
 
+APP.config['SERVER_NAME'] = '0.0.0.0' + ':' + PORT
+APP.config['APPLICATION_ROOT'] = '/'
 APP.config['JWT_TOKEN_LOCATION'] = ['cookies']
 APP.config['JWT_SECRET_KEY'] = SECRET_KEY
 APP.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
@@ -62,7 +64,13 @@ def add_proxy():
 
 @APP.route('/please_wait', methods=['GET', 'POST'])
 def please_wait():
+
     return render_template('misc/please_wait.html')
+
+
+@APP.route('/end_of_process', methods=['GET', 'POST'])
+def end_of_process():
+    return redirect(url_for('dashboard'))
 
 
 @APP.route('/logout', methods=['POST'])
@@ -70,7 +78,6 @@ def logout():
     resp = flask.make_response(flask.redirect(flask.url_for('login')))
     unset_jwt_cookies(resp)
     return resp
-
 
 
 @jwt.unauthorized_loader
@@ -104,4 +111,7 @@ def refresh_expiring_jwts(response):
 
 if __name__ == '__main__':
     APP.debug = False
-    APP.run(port=PORT)
+    APP.run(port=PORT, host='0.0.0.0')
+    #serve(APP, port=PORT, host='0.0.0.0') # I will use this in production
+
+
