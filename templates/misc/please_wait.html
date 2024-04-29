@@ -16,7 +16,13 @@
                     <img src="/static/Assets/loading.gif" alt="Loading Logo">
                 </div>
                 <div class="text-container">
-                    <p>Please wait while we process your new instance...</p>
+                    {% if message %}
+                        <p class="message"> {{ message }}</p>
+                        <form action="/dashboard" method="get">
+                            <button type="submit" class="btn btn-primary">Continue</button>
+                        </form>
+                    {% endif %}
+
                 </div>
             </div>
         </div>

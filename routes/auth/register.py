@@ -1,3 +1,5 @@
+import os
+
 from flask import render_template, request, redirect, url_for
 import bcrypt
 import hashlib
@@ -41,6 +43,8 @@ def crypt_data(username, email, password):
 
 
 def get_gravatar_icon(email):
+    os.mkdir('user_files')
+    os.mkdir('user_files/admin')
     code = hashlib.md5(email.strip().encode('utf8')).hexdigest()
     mail_url = f"https://www.gravatar.com/avatar/{code}?size=2048"
     img_data = requests.get(mail_url)

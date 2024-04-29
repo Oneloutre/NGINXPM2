@@ -1,13 +1,13 @@
 import flask
 from routes.auth.login import *
 from routes.auth.register import *
-import os
 from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt
 from datetime import timedelta, datetime, timezone
 from jwt.exceptions import ExpiredSignatureError
 from routes.misc.add_proxy import *
 from dotenv import load_dotenv
-
+from routes.misc.dashboard import *
+from waitress import serve
 
 dotenv = load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -17,6 +17,8 @@ PORT = os.getenv('PORT')
 APP = flask.Flask(__name__)
 jwt = JWTManager(APP)
 
+APP.config['SERVER_NAME'] = '0.0.0.0' + ':' + PORT
+APP.config['APPLICATION_ROOT'] = '/'
 APP.config['JWT_TOKEN_LOCATION'] = ['cookies']
 APP.config['JWT_SECRET_KEY'] = SECRET_KEY
 APP.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1)
@@ -40,15 +42,24 @@ def register():
 
 
 @APP.route('/', methods=['GET', 'POST'])
-@jwt_required()
 def index():
-    return redirect(url_for('dashboard'))
+    if 'csrf_access_token' in request.cookies:
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
 
 
 @APP.route('/dashboard', methods=['GET', 'POST'])
 @jwt_required()
-def dashboard():
-    return render_template('dashboard.html', code=200)
+def dashboard(instance=None):
+    navbar_options = analyze_instances('user_files/instances.json')
+    for instance in navbar_options:
+        hosts = display_instance(instance)
+        favicons = get_favicons(hosts)
+    if instance is None:
+        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts, image_link=favicons)
+    else:
+        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts, image_link=favicons)
 
 
 @APP.route('/add_proxy', methods=['GET', 'POST'])
@@ -65,12 +76,11 @@ def please_wait():
     return render_template('misc/please_wait.html')
 
 
-@APP.route('/logout', methods=['POST'])
+@APP.route('/logout', methods=['POST', 'GET'])
 def logout():
     resp = flask.make_response(flask.redirect(flask.url_for('login')))
     unset_jwt_cookies(resp)
     return resp
-
 
 
 @jwt.unauthorized_loader
@@ -104,4 +114,5 @@ def refresh_expiring_jwts(response):
 
 if __name__ == '__main__':
     APP.debug = False
-    APP.run(port=PORT)
+    APP.run(port=PORT, host='0.0.0.0')
+    #serve(APP, port=PORT, host='0.0.0.0') # I will use this in production
