@@ -3,6 +3,7 @@ from flask import render_template, request, jsonify, redirect, url_for
 from bs4 import BeautifulSoup
 import json
 from routes.misc.instances_management import register_instance
+from routes.misc.dashboard import scrap_instance
 
 scraper = cloudscraper.create_scraper()
 
@@ -99,17 +100,12 @@ def authenticate_user_in_nginx(url, user, password, csrf_access_token, csrf_sent
             if 'error' in jsonified:
                 return render_template('misc/add_proxy.html', error=jsonified['error']['message'])
             else:
-                token = jsonified['token']
-                headers = {
-                    'Authorization': f'Bearer {token}',
-                    'accept': 'application/json'
-                }
                 try:
-                    hosts = scraper.get(url+'/api/nginx/proxy-hosts', headers=headers)
-                    get_hosts(hosts)
-                    message = register_instance(url, nginx_user, nginx_password, token)
+                    message = register_instance(url, nginx_user, nginx_password, token=jsonified['token'])
+                    scrap_instance(url)
                     return render_template('misc/please_wait.html', message=message)
                 except Exception as e:
+                    print(e)
                     return render_template('misc/add_proxy.html', error='Error fetching the hosts')
                 return redirect(url_for('please_wait'))
         except Exception as e:
@@ -127,3 +123,5 @@ def get_hosts(hosts):
     json_dumped = json.dumps(hosts.json(), indent=4)
     with open('user_files/hosts.json', 'w') as file:
         file.write(json_dumped)
+
+

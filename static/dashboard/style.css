@@ -1,11 +1,64 @@
 body {
-  background-color: #1e2124;
-  color: #ffffff;
+    background-color: #1e2124;
+    color: #ffffff;
 }
 
-.container {
-  background-color: #282b30;
-  padding: 20px;
-  border-radius: 10px;
-  margin-top: 20px;
+.navbar {
+    background-color: #282b30 !important;
+}
+
+.navbar-brand img {
+    max-width: 60px;
+    height: auto;
+}
+
+.dropdown-menu {
+    background-color: #343a40 !important;
+    border: 20px solid #ffffff; !important;
+    border-radius: 0.25rem !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s ease; !important;
+}
+
+.dropdown-menu a.dropdown-item {
+    color: #ffffff !important;
+}
+
+.dropdown-menu a.dropdown-item:hover,
+.dropdown-menu a.dropdown-item:focus {
+    background-color: #495057 !important;
+}
+
+.dropdown-menu a.dropdown-item.disabled {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.navbar-light .navbar-toggler {
+    color: rgba(255, 255, 255, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.navbar-light .navbar-toggler:hover, .navbar-light .navbar-toggler:focus {
+    color: rgba(255, 255, 255, 0.75) !important;
+    outline: none;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+    color: #ffffff !important;
+}
+
+.btn-dropdown-toggle {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #ffffff;
+}
+
+.btn-dropdown-toggle:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: #ffffff;
 }

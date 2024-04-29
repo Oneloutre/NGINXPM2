@@ -1,12 +1,12 @@
 import flask
 from routes.auth.login import *
 from routes.auth.register import *
-import os
 from flask_jwt_extended import jwt_required, JWTManager, unset_jwt_cookies, get_jwt_identity, get_jwt
 from datetime import timedelta, datetime, timezone
 from jwt.exceptions import ExpiredSignatureError
 from routes.misc.add_proxy import *
 from dotenv import load_dotenv
+from routes.misc.dashboard import *
 from waitress import serve
 
 dotenv = load_dotenv()
@@ -42,15 +42,23 @@ def register():
 
 
 @APP.route('/', methods=['GET', 'POST'])
-@jwt_required()
 def index():
-    return redirect(url_for('dashboard'))
+    if 'csrf_access_token' in request.cookies:
+        return redirect(url_for('dashboard'))
+    else:
+        return redirect(url_for('login'))
 
 
 @APP.route('/dashboard', methods=['GET', 'POST'])
 @jwt_required()
-def dashboard():
-    return render_template('dashboard.html', code=200)
+def dashboard(instance=None):
+    navbar_options = analyze_instances('user_files/instances.json')
+    if instance is None:
+        return render_template('dashboard.html', navbar_options=navbar_options)
+    else:
+        print(instance)
+        return render_template('dashboard.html', navbar_options=navbar_options)
+
 
 
 @APP.route('/add_proxy', methods=['GET', 'POST'])
@@ -113,5 +121,3 @@ if __name__ == '__main__':
     APP.debug = False
     APP.run(port=PORT, host='0.0.0.0')
     #serve(APP, port=PORT, host='0.0.0.0') # I will use this in production
-
-

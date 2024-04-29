@@ -1,67 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="/static/Assets/favicon.png">
-  <title>Dashboard</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/static/dashboard/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/dashboard/style.css">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><img src="/static/Assets/favicon.png" alt="Logo" class="img-fluid logo-img"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Dashboard</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <form action="/logout" method="post">
-          <button type="submit" class="btn btn-link nav-link">Déconnexion</button>
-        </form>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/add_proxy">Ajouter un proxy</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Instances
+                    </button>
 
-<div class="container">
-  <h1>Dashboard</h1>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="card bg-dark text-white">
-        <div class="card-body">
-          <h5 class="card-title">Card 1</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="dropdown-menu dropdown-menu-dark rounded-0 border-0" aria-labelledby="navbarDropdown">
+                        {% if not navbar_options %}
+                            <a class="dropdown-item disabled" href="#">No instance found</a>
+                        {% else %}
+                            {% for option in navbar_options %}
+                                <a class="dropdown-item" href="{{ url_for('dashboard', instance=option) }}">
+                                    <i class="fas fa-cog"></i> {{ option }}
+                                </a>
+                                {% if not loop.last %}
+                                        <div class="dropdown-divider"></div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+            </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+                <button class="btn btn-link nav-link" type="submit">Déconnexion</button>
+            </form>
+            <a href="/add_proxy" class="btn btn-primary">Ajouter un proxy</a>
         </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card bg-dark text-white">
-        <div class="card-body">
-          <h5 class="card-title">Card 2</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card bg-dark text-white">
-        <div class="card-body">
-          <h5 class="card-title">Card 3</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    </nav>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="container">
+        <h2>{{ selected_option }}</h2>
+        {% if not data %}
+            <p>No instance found</p>
+        {% else %}
+            <ul>
+                {% for item in data %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
