@@ -55,11 +55,11 @@ def dashboard(instance=None):
     navbar_options = analyze_instances('user_files/instances.json')
     for instance in navbar_options:
         hosts = display_instance(instance)
-        favicons = get_favicons(hosts)
+        #favicons = get_favicons(hosts)
     if instance is None:
-        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts, image_link=favicons)
+        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts)
     else:
-        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts, image_link=favicons)
+        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts)
 
 
 @APP.route('/add_proxy', methods=['GET', 'POST'])
