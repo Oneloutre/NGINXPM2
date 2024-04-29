@@ -38,9 +38,22 @@ body {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
+.container{
+    background-color: #282b30 !important;
+}
+
 .navbar-light .navbar-toggler:hover, .navbar-light .navbar-toggler:focus {
     color: rgba(255, 255, 255, 0.75) !important;
     outline: none;
+}
+
+.card{
+    background-color: #343a40 !important;
+    border: none !important;
+    border-radius: 0.25rem !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.3s ease; !important;
+
 }
 
 .navbar-light .navbar-nav .nav-link {

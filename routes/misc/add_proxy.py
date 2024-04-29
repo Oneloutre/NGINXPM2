@@ -119,9 +119,3 @@ def verify_credentials_validity(url, user, password):
         return True
 
 
-def get_hosts(hosts):
-    json_dumped = json.dumps(hosts.json(), indent=4)
-    with open('user_files/hosts.json', 'w') as file:
-        file.write(json_dumped)
-
-

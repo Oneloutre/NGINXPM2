@@ -53,12 +53,13 @@ def index():
 @jwt_required()
 def dashboard(instance=None):
     navbar_options = analyze_instances('user_files/instances.json')
+    for instance in navbar_options:
+        hosts = display_instance(instance)
+        favicons = get_favicons(hosts)
     if instance is None:
-        return render_template('dashboard.html', navbar_options=navbar_options)
+        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts, image_link=favicons)
     else:
-        print(instance)
-        return render_template('dashboard.html', navbar_options=navbar_options)
-
+        return render_template('dashboard.html', navbar_options=navbar_options, data=hosts, image_link=favicons)
 
 
 @APP.route('/add_proxy', methods=['GET', 'POST'])
@@ -72,16 +73,10 @@ def add_proxy():
 
 @APP.route('/please_wait', methods=['GET', 'POST'])
 def please_wait():
-
     return render_template('misc/please_wait.html')
 
 
-@APP.route('/end_of_process', methods=['GET', 'POST'])
-def end_of_process():
-    return redirect(url_for('dashboard'))
-
-
-@APP.route('/logout', methods=['POST'])
+@APP.route('/logout', methods=['POST', 'GET'])
 def logout():
     resp = flask.make_response(flask.redirect(flask.url_for('login')))
     unset_jwt_cookies(resp)
