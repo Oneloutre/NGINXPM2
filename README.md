@@ -44,11 +44,11 @@ Nginx Proxy Manager Monitor => NginxPM*M => NginxPM^2 => NginxPM2
 
 |               Feature                |       Done ?       |
 |:------------------------------------:|:------------------:|
-|             Login system             | :white_check_mark: |
-|   Add an instance to the dashboard   |         ⌛️         |
-| Docker support (build and compose    |         ⌛️         |
+|             Login system             |         ✅         |
+|   Add an instance to the dashboard   |         ✅         |
+| Docker support (build and compose    |         ✅         |
 |        functionnal dashboard         |        :x:         |
-|          multiple instances          |        :x:         |
+|          multiple instances          |        ⏳          |
 |        Create a documentation        |        :x:         |
 |           multiples users            |        :x:         |
 |     Dark/clear separated themes      |        :x:         |
