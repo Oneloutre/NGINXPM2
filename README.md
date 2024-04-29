@@ -46,9 +46,9 @@ Nginx Proxy Manager Monitor => NginxPM*M => NginxPM^2 => NginxPM2
 |:------------------------------------:|:------------------:|
 |             Login system             |         ✅         |
 |   Add an instance to the dashboard   |         ✅         |
-| Docker support (build and compose    |         ✅         |
-|        functionnal dashboard         |        :x:         |
-|          multiple instances          |        ⏳          |
+| Docker support (build and compose)   |         ✅         |
+|        functionnal dashboard         |         ⏳         |
+|          multiple instances          |         ✅         |
 |        Create a documentation        |        :x:         |
 |           multiples users            |        :x:         |
 |     Dark/clear separated themes      |        :x:         |
